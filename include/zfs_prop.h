@@ -91,7 +91,7 @@ void zfs_prop_init(void);
 zprop_type_t zfs_prop_get_type(zfs_prop_t);
 boolean_t zfs_prop_delegatable(zfs_prop_t prop);
 zprop_desc_t *zfs_prop_get_table(void);
-
+	
 /*
  * zpool property functions
  */
@@ -125,6 +125,12 @@ uint64_t zprop_random_value(int, uint64_t, zfs_type_t);
 const char *zprop_values(int, zfs_type_t);
 size_t zprop_width(int, boolean_t *, zfs_type_t);
 boolean_t zprop_valid_for_type(int, zfs_type_t, boolean_t);
+
+/*
+ * zcommon module parameter to prefix the top level dataset mountpoint for
+ * mounting pool in an user-specified pool root path different than '/'
+ */
+extern char *zfs_mountpoint_prefix;
 
 #ifdef	__cplusplus
 }
