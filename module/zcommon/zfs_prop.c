@@ -878,7 +878,7 @@ MODULE_VERSION(ZFS_META_VERSION "-" ZFS_META_RELEASE);
  * a valid existing path terminated by forward slash
  * then the exploded pieces are all yours
  */
-module_param(zfs_mountpoint_prefix, char, 0444);
+module_param(zfs_mountpoint_prefix, charp, 0444);
 MODULE_PARM_DESC(zfs_mountpoint_prefix,
 	"Top-level dataset mountpoint prefix path terminated by forward slash,"
 	"ie /srv/zfs/. Must exist before loading module");
