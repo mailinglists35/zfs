@@ -91,7 +91,7 @@ void zfs_prop_init(void);
 zprop_type_t zfs_prop_get_type(zfs_prop_t);
 boolean_t zfs_prop_delegatable(zfs_prop_t prop);
 zprop_desc_t *zfs_prop_get_table(void);
-	
+
 /*
  * zpool property functions
  */
