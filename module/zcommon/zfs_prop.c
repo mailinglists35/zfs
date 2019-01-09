@@ -46,6 +46,7 @@
 #endif
 
 static zprop_desc_t zfs_prop_table[ZFS_NUM_PROPS];
+static char *zfs_mountpoint_prefix = "/";
 
 /* Note this is indexed by zfs_userquota_prop_t, keep the order the same */
 const char *zfs_userquota_prop_prefixes[] = {
@@ -421,9 +422,9 @@ zfs_prop_init(void)
 	    ZFS_TYPE_FILESYSTEM | ZFS_TYPE_VOLUME, "<snapshot>", "ORIGIN");
 	zprop_register_string(ZFS_PROP_CLONES, "clones", NULL, PROP_READONLY,
 	    ZFS_TYPE_SNAPSHOT, "<dataset>[,...]", "CLONES");
-	zprop_register_string(ZFS_PROP_MOUNTPOINT, "mountpoint", "/",
-	    PROP_INHERIT, ZFS_TYPE_FILESYSTEM, "<path> | legacy | none",
-	    "MOUNTPOINT");
+	zprop_register_string(ZFS_PROP_MOUNTPOINT, "mountpoint",
+	    zfs_mountpoint_prefix, PROP_INHERIT, ZFS_TYPE_FILESYSTEM,
+	    "<path> | legacy | none", "MOUNTPOINT");
 	zprop_register_string(ZFS_PROP_SHARENFS, "sharenfs", "off",
 	    PROP_INHERIT, ZFS_TYPE_FILESYSTEM, "on | off | share(1M) options",
 	    "SHARENFS");
@@ -870,6 +871,17 @@ MODULE_DESCRIPTION("Generic ZFS support");
 MODULE_AUTHOR(ZFS_META_AUTHOR);
 MODULE_LICENSE(ZFS_META_LICENSE);
 MODULE_VERSION(ZFS_META_VERSION "-" ZFS_META_RELEASE);
+
+/* read-only because bad things will happen if changed live
+ * I have no idea how to do error checking. 
+ * If you put garbage here instead of
+ * a valid existing path terminated by forward slash
+ * then the exploded pieces are all yours
+ */
+module_param(zfs_mountpoint_prefix, char, 0444);
+MODULE_PARM_DESC(zfs_mountpoint_prefix,
+	"Top-level dataset mountpoint prefix path terminated by forward slash,"
+	"ie /srv/zfs/. Must exist before loading module");
 
 /* zfs dataset property functions */
 EXPORT_SYMBOL(zfs_userquota_prop_prefixes);
